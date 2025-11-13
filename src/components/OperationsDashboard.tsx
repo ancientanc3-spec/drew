@@ -14,6 +14,7 @@ import LeaderboardWidget from './dashboard/LeaderboardWidget';
 import SystemHealthMonitor from './dashboard/SystemHealthMonitor';
 import NotificationsPanel from './dashboard/NotificationsPanel';
 import AnimatedGreenRobot from './AnimatedGreenRobot';
+import AIAssistantChat from './dashboard/AIAssistantChat';
 
 interface DashboardStats {
   totalCredentials: number;
@@ -295,7 +296,8 @@ export default function OperationsDashboard({ onBack }: OperationsDashboardProps
               </button>
             )}
             {[
-              { name: 'Dashboard', icon: Activity, view: 'dashboard' }
+              { name: 'Dashboard', icon: Activity, view: 'dashboard' },
+              { name: 'AI Assistant', icon: Bot, view: 'ai-assistant' }
             ].map((item) => (
               <button
                 key={item.name}
@@ -321,8 +323,12 @@ export default function OperationsDashboard({ onBack }: OperationsDashboardProps
                 <Menu className="w-6 h-6" />
               </button>
               <div className="flex-1 lg:flex-none">
-                <h1 className="text-2xl font-bold text-white animate-fade-in">{activeView === 'dashboard' ? 'Operations Center' : activeView.charAt(0).toUpperCase() + activeView.slice(1)}</h1>
-                <p className="text-sm text-gray-400 mt-1">Real-time blockchain credential analytics</p>
+                <h1 className="text-2xl font-bold text-white animate-fade-in">
+                  {activeView === 'dashboard' ? 'Operations Center' : activeView === 'ai-assistant' ? 'AI Assistant' : activeView.charAt(0).toUpperCase() + activeView.slice(1)}
+                </h1>
+                <p className="text-sm text-gray-400 mt-1">
+                  {activeView === 'dashboard' ? 'Real-time blockchain credential analytics' : 'Ask questions about the platform'}
+                </p>
               </div>
               <div className="flex items-center space-x-4">
                 <div className="hidden lg:flex items-center space-x-2 text-sm">
@@ -334,7 +340,11 @@ export default function OperationsDashboard({ onBack }: OperationsDashboardProps
           </header>
 
           <main className="p-4 lg:p-8">
-            {activeView === 'dashboard' && (
+            {activeView === 'ai-assistant' ? (
+              <div className="h-[calc(100vh-12rem)]">
+                <AIAssistantChat />
+              </div>
+            ) : activeView === 'dashboard' ? (
               <>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
               {statCards.map((card, index) => (
@@ -489,68 +499,8 @@ export default function OperationsDashboard({ onBack }: OperationsDashboardProps
 
               <SystemHealthMonitor systemHealth={stats.systemHealth} />
             </div>
-
-            <div className="bg-gray-800 rounded-2xl border border-gray-700 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <h2 className="text-xl font-bold text-white">AI Assistant</h2>
-                  <p className="text-sm text-gray-400 mt-1">Common questions about the platform</p>
-                </div>
-                <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl">
-                  <HelpCircle className="w-5 h-5 text-white" />
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <button className="w-full text-left p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all group">
-                  <div className="flex items-start space-x-3">
-                    <MessageSquare className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">How do I issue a credential?</h3>
-                      <p className="text-xs text-gray-400 mt-1">Learn about the credential issuance process and requirements</p>
-                    </div>
-                  </div>
-                </button>
-
-                <button className="w-full text-left p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all group">
-                  <div className="flex items-start space-x-3">
-                    <MessageSquare className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-white group-hover:text-green-400 transition-colors">How do students verify their credentials?</h3>
-                      <p className="text-xs text-gray-400 mt-1">Understand the verification process and sharing options</p>
-                    </div>
-                  </div>
-                </button>
-
-                <button className="w-full text-left p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all group">
-                  <div className="flex items-start space-x-3">
-                    <MessageSquare className="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-white group-hover:text-orange-400 transition-colors">What is a soulbound token?</h3>
-                      <p className="text-xs text-gray-400 mt-1">Learn about non-transferable blockchain credentials</p>
-                    </div>
-                  </div>
-                </button>
-
-                <button className="w-full text-left p-4 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all group">
-                  <div className="flex items-start space-x-3">
-                    <MessageSquare className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-sm font-semibold text-white group-hover:text-red-400 transition-colors">How do I revoke a credential?</h3>
-                      <p className="text-xs text-gray-400 mt-1">Steps to revoke credentials in case of errors or fraud</p>
-                    </div>
-                  </div>
-                </button>
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-700">
-                <p className="text-xs text-gray-500 text-center">
-                  Need more help? Contact support or check our documentation
-                </p>
-              </div>
-            </div>
               </>
-            )}
+            ) : null}
           </main>
         </div>
       </div>
