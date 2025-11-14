@@ -278,7 +278,7 @@ export default function OperationsDashboard({ onBack }: OperationsDashboardProps
               <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold text-white">AcadChain</span>
+              <span className="text-xl font-bold text-white">CredSphere</span>
             </div>
             <button onClick={() => setMobileMenuOpen(false)} className="lg:hidden text-gray-400">
               <X className="w-6 h-6" />
